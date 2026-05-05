@@ -71,24 +71,30 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            className={`
-            group flex items-center gap-3 px-3 py-2.5 mb-2 min-h-14 rounded-xl border
-            transition-all cursor-grab active:cursor-grabbing
-            ${
-              snapshot.isDragging
-                ? "bg-gray-800 border-gray-600 shadow-xl scale-[1.02]"
-                : "bg-[#1f1f3a] border-gray-800 hover:border-gray-600"
-            }
-          `}
+            style={provided.draggableProps.style}
+            className="pb-4"
           >
-            <button
-              type="button"
-              disabled={isPending}
-              onClick={handleToggle}
-              aria-label={
-                optimisticCompleted ? "Mark as incomplete" : "Mark as complete"
-              }
+            <div
               className={`
+              group flex items-center gap-3 px-3 py-2.5 min-h-14 rounded-xl border
+              transition-all cursor-grab active:cursor-grabbing
+              ${
+                snapshot.isDragging
+                  ? "bg-gray-800 border-gray-600 shadow-xl scale-[1.02]"
+                  : "bg-[#1f1f3a] border-gray-800 hover:border-gray-600"
+              }
+            `}
+            >
+              <button
+                type="button"
+                disabled={isPending}
+                onClick={handleToggle}
+                aria-label={
+                  optimisticCompleted
+                    ? "Mark as incomplete"
+                    : "Mark as complete"
+                }
+                className={`
               flex items-center justify-center w-5 h-5 rounded-full border
               transition-all shrink-0
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
@@ -99,38 +105,38 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
                   : "border-gray-600 hover:border-gray-400"
               }
             `}
-            >
-              {optimisticCompleted && <CheckIcon />}
-            </button>
+              >
+                {optimisticCompleted && <CheckIcon />}
+              </button>
 
-            <div className="flex-1 min-w-0">
-              {isEditing ? (
-                <Input
-                  autoFocus
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                  onBlur={handleBlur}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      isSavingRef.current = true;
-                      handleSave().finally(() => {
+              <div className="flex-1 min-w-0">
+                {isEditing ? (
+                  <Input
+                    autoFocus
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    onBlur={handleBlur}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        isSavingRef.current = true;
+                        handleSave().finally(() => {
+                          isSavingRef.current = false;
+                        });
+                      }
+                      if (e.key === "Escape") {
+                        isSavingRef.current = true;
+                        handleCancel();
                         isSavingRef.current = false;
-                      });
-                    }
-                    if (e.key === "Escape") {
-                      isSavingRef.current = true;
-                      handleCancel();
-                      isSavingRef.current = false;
-                    }
-                  }}
-                  className="
+                      }
+                    }}
+                    className="
                   h-8 w-full bg-transparent border-gray-700
                   focus-visible:ring-1 focus-visible:ring-blue-500
                 "
-                />
-              ) : (
-                <span
-                  className={`
+                  />
+                ) : (
+                  <span
+                    className={`
                   block truncate text-sm
                   ${
                     optimisticCompleted
@@ -138,60 +144,61 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
                       : "text-gray-200"
                   }
                 `}
-                >
-                  {todo.text}
-                </span>
-              )}
-            </div>
+                  >
+                    {todo.text}
+                  </span>
+                )}
+              </div>
 
-            <div
-              className={`
+              <div
+                className={`
               flex items-center gap-1 transition-opacity
               ${isEditing ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
             `}
-            >
-              {isEditing ? (
-                <>
-                  <Button
-                    variant="icon"
-                    onClick={handleSave}
-                    title="Save"
-                    className="text-green-500 hover:text-green-400 hover:bg-green-500/10"
-                  >
-                    <CheckIcon />
-                  </Button>
+              >
+                {isEditing ? (
+                  <>
+                    <Button
+                      variant="icon"
+                      onClick={handleSave}
+                      title="Save"
+                      className="text-green-500 hover:text-green-400 hover:bg-green-500/10"
+                    >
+                      <CheckIcon />
+                    </Button>
 
-                  <Button
-                    variant="icon"
-                    onClick={handleCancel}
-                    title="Cancel"
-                    className="text-gray-400 hover:text-red-400 hover:bg-red-500/10"
-                  >
-                    <CloseIcon />
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button
-                    variant="icon"
-                    onClick={() => setIsEditing(true)}
-                    title="Edit"
-                    className="text-gray-400 hover:text-blue-400 hover:bg-gray-800"
-                  >
-                    <EditIcon />
-                  </Button>
+                    <Button
+                      variant="icon"
+                      onClick={handleCancel}
+                      title="Cancel"
+                      className="text-gray-400 hover:text-red-400 hover:bg-red-500/10"
+                    >
+                      <CloseIcon />
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      variant="icon"
+                      onClick={() => setIsEditing(true)}
+                      title="Edit"
+                      className="text-gray-400 hover:text-blue-400 hover:bg-gray-800"
+                    >
+                      <EditIcon />
+                    </Button>
 
-                  <Button
-                    variant="icon"
-                    disabled={isPending}
-                    onClick={handleDelete}
-                    title="Delete"
-                    className="text-red-400/70 hover:text-red-500 hover:bg-red-500/10 disabled:opacity-50"
-                  >
-                    <TrashIcon />
-                  </Button>
-                </>
-              )}
+                    <Button
+                      variant="icon"
+                      disabled={isPending}
+                      onClick={handleDelete}
+                      title="Delete"
+                      className="text-red-400/70 hover:text-red-500 hover:bg-red-500/10 disabled:opacity-50"
+                    >
+                      <TrashIcon />
+                    </Button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         )}

@@ -33,10 +33,8 @@ export function TodoList({ initialTodos }: Readonly<TodoListProps>) {
         {(provided) => (
           <div
             {...provided.droppableProps}
-            ref={(node) => {
-              provided.innerRef(node);
-            }}
-            className="space-y-4"
+            ref={provided.innerRef}
+            className="w-full"
           >
             {todos.map((todo, index) => (
               <TodoItem key={todo.id} todo={todo} index={index} />
