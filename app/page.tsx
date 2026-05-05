@@ -16,7 +16,7 @@ export default async function Home({
   if (filter === "completed") todos = todos.filter((t) => t.completed);
 
   return (
-    <main className="md:min-w-xl mx-auto pt-6">
+    <main className="md:min-w-xl min-w-full mx-auto pt-6 max-md:px-2.5">
       <h1 className="text-3xl font-bold mb-8 text-center">TODO List</h1>
 
       <TodoForm />

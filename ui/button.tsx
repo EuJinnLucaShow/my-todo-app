@@ -6,7 +6,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variants = {
   default: "",
-  icon: "p-1.5 rounded-md border-none bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500",
+  icon: "p-1.5",
 };
 
 export function Button({
@@ -16,7 +16,7 @@ export function Button({
 }: Readonly<ButtonProps>) {
   return (
     <button
-      className={`rounded transition-colors disabled:opacity-50 cursor-pointer p-0 ${variants[variant]} ${className}`}
+      className={`rounded disabled:opacity-50 cursor-pointer p-0 ${variants[variant]} ${className}`}
       {...props}
     />
   );

@@ -14,6 +14,7 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
   const [text, setText] = useState(todo.text);
   const [isPending, startTransition] = useTransition();
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const isSavingRef = useRef(false);
 
   const [optimisticCompleted, setOptimisticCompleted] = useOptimistic(
@@ -57,7 +58,8 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
     });
   };
 
-  const handleDelete = () => {
+  const confirmDelete = () => {
+    setShowDeleteConfirm(false);
     startTransition(async () => {
       await deleteTodo(todo.id);
     });
@@ -80,7 +82,7 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
               transition-all cursor-grab active:cursor-grabbing
               ${
                 snapshot.isDragging
-                  ? "bg-gray-800 border-gray-600 shadow-xl scale-[1.02]"
+                  ? "bg-indigo-950 border-gray-600 shadow-xl scale-[1.02]"
                   : "bg-[#1f1f3a] border-gray-800 hover:border-gray-600"
               }
             `}
@@ -98,7 +100,7 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
               flex items-center justify-center w-5 h-5 rounded-full border
               transition-all shrink-0
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
-              disabled:opacity-50
+              disabled:opacity-50 cursor-pointer
               ${
                 optimisticCompleted
                   ? "bg-blue-600 border-blue-600"
@@ -153,8 +155,12 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
               <div
                 className={`
               flex items-center gap-1 transition-opacity
-              ${isEditing ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
-            `}
+              ${
+                isEditing
+                  ? "opacity-100"
+                  : "opacity-100 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100"
+              }
+              `}
               >
                 {isEditing ? (
                   <>
@@ -190,7 +196,7 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
                     <Button
                       variant="icon"
                       disabled={isPending}
-                      onClick={handleDelete}
+                      onClick={() => setShowDeleteConfirm(true)}
                       title="Delete"
                       className="text-red-400/70 hover:text-red-500 hover:bg-red-500/10 disabled:opacity-50"
                     >
@@ -210,6 +216,16 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
           description="You have made changes to the task. Do you want to save or discard them?"
           onConfirm={handleSave}
           onCancel={handleCancel}
+        />
+      )}
+
+      {showDeleteConfirm && (
+        <ConfirmModal
+          title="Delete task?"
+          description="Are you sure you want to delete this task? This action cannot be undone."
+          onConfirm={confirmDelete}
+          onCancel={() => setShowDeleteConfirm(false)}
+          confirmLabel="Delete"
         />
       )}
     </>
