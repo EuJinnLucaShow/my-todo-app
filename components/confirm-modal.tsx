@@ -101,12 +101,14 @@ export function ConfirmModal({
               <h2 className="text-xl font-bold text-white tracking-tight">
                 {title}
               </h2>
-              <p className="text-sm leading-relaxed text-zinc-400">
-                {description}
-              </p>
+              <div className="rounded-xl border border-cyan-500/30 bg-linear-to-r from-cyan-500/15 via-fuchsia-500/10 to-cyan-500/15 p-4 backdrop-blur-sm">
+                <p className="text-sm leading-relaxed text-zinc-400">
+                  {description}
+                </p>
+              </div>
             </div>
 
-            <div className="flex gap-3 pt-2">
+            <div className="flex gap-3">
               <Button
                 variant="icon"
                 onClick={onCancel}
