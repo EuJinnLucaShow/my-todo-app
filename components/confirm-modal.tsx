@@ -2,9 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
+
 import { Button } from "@/ui/button";
 import { useIsClient } from "@/hooks/useIsClient";
-import { CloseIcon } from "./icons";
+import { CloseIcon } from "@/ui/icons";
 
 interface ConfirmModalProps {
   title: string;

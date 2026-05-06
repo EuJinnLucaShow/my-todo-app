@@ -7,7 +7,7 @@ import { Input } from "@/ui/input";
 import type { TodoItemProps } from "@/types/todo";
 import { Button } from "@/ui/button";
 import { CheckIcon, CloseIcon, EditIcon, TrashIcon } from "@/ui/icons";
-import { ConfirmModal } from "@/ui/confirm-modal";
+import { ConfirmModal } from "@/components/confirm-modal";
 
 export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
   const [isEditing, setIsEditing] = useState(false);
@@ -87,29 +87,31 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
               }
             `}
             >
-              <button
-                type="button"
-                disabled={isPending}
-                onClick={handleToggle}
-                aria-label={
-                  optimisticCompleted
-                    ? "Mark as incomplete"
-                    : "Mark as complete"
-                }
-                className={`
+              {!isEditing && (
+                <button
+                  type="button"
+                  disabled={isPending || isEditing}
+                  onClick={handleToggle}
+                  aria-label={
+                    optimisticCompleted
+                      ? "Mark as incomplete"
+                      : "Mark as complete"
+                  }
+                  className={`
               flex items-center justify-center w-5 h-5 rounded-full border
               transition-all shrink-0
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
-              disabled:opacity-50 cursor-pointer
+              disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer
               ${
                 optimisticCompleted
                   ? "bg-blue-600 border-blue-600"
                   : "border-gray-600 hover:border-gray-400"
               }
             `}
-              >
-                {optimisticCompleted && <CheckIcon />}
-              </button>
+                >
+                  {optimisticCompleted && <CheckIcon />}
+                </button>
+              )}
 
               <div className="flex-1 min-w-0">
                 {isEditing ? (
@@ -132,7 +134,7 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
                       }
                     }}
                     className="
-                  h-8 w-full bg-transparent border-gray-700
+                  h-8 pl-8 w-full bg-transparent border-gray-700
                   focus-visible:ring-1 focus-visible:ring-blue-500
                 "
                   />
