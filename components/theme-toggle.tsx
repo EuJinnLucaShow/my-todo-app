@@ -2,6 +2,7 @@
 
 import { useIsClient } from "@/hooks/useIsClient";
 import { Button } from "@/ui/button";
+import { MoonIcon, SunIcon } from "@/ui/icons";
 import { useTheme } from "next-themes";
 
 export function ThemeToggle() {
@@ -21,7 +22,7 @@ export function ThemeToggle() {
       className="cursor-pointer p-2 rounded-md bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors"
       aria-label="Toggle theme"
     >
-      {currentTheme === "dark" ? "☀️" : "🌙"}
+      {currentTheme === "dark" ? <SunIcon /> : <MoonIcon />}
     </Button>
   );
 }
