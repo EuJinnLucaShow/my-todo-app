@@ -82,8 +82,8 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
               transition-all cursor-grab active:cursor-grabbing
               ${
                 snapshot.isDragging
-                  ? "bg-indigo-950 border-gray-600 shadow-xl scale-[1.02]"
-                  : "bg-[#1f1f3a] border-gray-800 hover:border-gray-600"
+                  ? "bg-slate-50 border-indigo-300 shadow-xl scale-[1.02] dark:bg-indigo-950/40 dark:border-slate-600"
+                  : "bg-white border-slate-200 hover:border-slate-300 shadow-sm dark:bg-[#1f1f3a] dark:border-slate-800 dark:hover:border-slate-600"
               }
             `}
             >
@@ -104,8 +104,8 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
               disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer
               ${
                 optimisticCompleted
-                  ? "bg-blue-600 border-blue-600"
-                  : "border-gray-600 hover:border-gray-400"
+                  ? "bg-blue-600 border-blue-600 text-white"
+                  : "border-slate-300 hover:border-slate-400 dark:border-gray-600 dark:hover:border-gray-400 bg-transparent"
               }
             `}
                 >
@@ -134,18 +134,19 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
                       }
                     }}
                     className="
-                  h-8 pl-8 w-full bg-transparent border-gray-700
+                  h-8 pl-8 w-full bg-transparent border-slate-300 text-slate-900 
+                  dark:border-gray-700 dark:text-slate-100
                   focus-visible:ring-1 focus-visible:ring-blue-500
                 "
                   />
                 ) : (
                   <span
                     className={`
-                  block truncate text-sm
+                  block truncate text-sm transition-colors
                   ${
                     optimisticCompleted
-                      ? "line-through text-gray-500"
-                      : "text-gray-200"
+                      ? "line-through text-slate-400 dark:text-gray-500"
+                      : "text-slate-700 dark:text-gray-200"
                   }
                 `}
                   >
@@ -170,7 +171,7 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
                       variant="icon"
                       onClick={handleSave}
                       title="Save"
-                      className="text-green-500 hover:text-green-400 hover:bg-green-500/10"
+                      className="text-green-600 hover:text-green-700 hover:bg-green-50 dark:text-green-500 dark:hover:text-green-400 dark:hover:bg-green-500/10"
                     >
                       <CheckIcon />
                     </Button>
@@ -179,7 +180,7 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
                       variant="icon"
                       onClick={handleCancel}
                       title="Cancel"
-                      className="text-gray-400 hover:text-red-400 hover:bg-red-500/10"
+                      className="text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:text-red-400 dark:hover:bg-red-500/10"
                     >
                       <CloseIcon />
                     </Button>
@@ -190,7 +191,7 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
                       variant="icon"
                       onClick={() => setIsEditing(true)}
                       title="Edit"
-                      className="text-gray-400 hover:text-blue-400 hover:bg-gray-800"
+                      className="text-slate-400 hover:text-blue-600 hover:bg-slate-100 dark:hover:text-blue-400 dark:hover:bg-gray-800"
                     >
                       <EditIcon />
                     </Button>
@@ -200,7 +201,7 @@ export function TodoItem({ todo, index }: Readonly<TodoItemProps>) {
                       disabled={isPending}
                       onClick={() => setShowDeleteConfirm(true)}
                       title="Delete"
-                      className="text-red-400/70 hover:text-red-500 hover:bg-red-500/10 disabled:opacity-50"
+                      className="text-slate-400 hover:text-red-600 hover:bg-red-50 dark:text-red-400/70 dark:hover:text-red-500 dark:hover:bg-red-500/10 disabled:opacity-50"
                     >
                       <TrashIcon />
                     </Button>

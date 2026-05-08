@@ -25,7 +25,6 @@ export function ConfirmModal({
   onCancel,
 }: Readonly<ConfirmModalProps>) {
   const modalRef = useRef<HTMLDialogElement>(null);
-
   const isClient = useIsClient();
 
   const isDanger = confirmLabel.toLowerCase() === "delete";
@@ -69,21 +68,26 @@ export function ConfirmModal({
       };
 
   return ReactDOM.createPortal(
-    <div className="fixed inset-0 z-100 bg-black/80 backdrop-blur-sm">
+    <div className="fixed inset-0 z-100 bg-slate-900/40 dark:bg-black/80 backdrop-blur-sm transition-colors">
       <div className="pointer-events-none fixed inset-0 z-99 flex items-center justify-center p-4">
         <dialog
           ref={modalRef}
           open
-          className="pointer-events-auto relative w-full max-w-md overflow-hidden rounded-2xl border border-cyan-500/40 bg-linear-to-br from-zinc-900 via-zinc-900 to-zinc-950 shadow-2xl"
-          style={{
-            boxShadow:
-              "0 0 60px rgba(6, 182, 212, 0.4), 0 0 100px rgba(168, 85, 247, 0.2), inset 0 0 80px rgba(6, 182, 212, 0.08)",
-          }}
+          className="pointer-events-auto relative w-full max-w-md overflow-hidden rounded-2xl border transition-all
+            bg-white border-indigo-100 shadow-2xl shadow-indigo-500/10
+            dark:bg-zinc-950 dark:border-cyan-500/40 dark:bg-linear-to-br dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-950
+            modal-neon-shadow"
           aria-modal="true"
         >
-          <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-cyan-500/15 via-transparent to-fuchsia-500/15" />
-          <div className="absolute -inset-2 animate-pulse rounded-2xl bg-linear-to-r from-cyan-500 via-fuchsia-500 to-cyan-500 opacity-30 blur-2xl" />
-          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-zinc-950/50 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-indigo-500/5 via-transparent to-purple-500/5 dark:from-cyan-500/15 dark:via-transparent dark:to-fuchsia-500/15" />
+
+          <div
+            className="absolute -inset-2 animate-pulse rounded-2xl bg-linear-to-r blur-2xl 
+            from-indigo-400 via-purple-400 to-indigo-400 opacity-10 
+            dark:from-cyan-500 dark:via-fuchsia-500 dark:to-cyan-500 dark:opacity-30"
+          />
+
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-white/60 to-transparent dark:from-zinc-950/50" />
 
           <Button
             type="button"
@@ -91,18 +95,24 @@ export function ConfirmModal({
             onClick={onCancel}
             autoFocus
             aria-label="Close modal"
-            className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-cyan-500/30 bg-zinc-800/80 text-cyan-400 transition-all hover:border-cyan-400/50 hover:bg-zinc-700/80 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full border transition-all focus:outline-none focus:ring-2 focus:ring-purple-500
+              border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100 
+              dark:border-cyan-500/30 dark:bg-zinc-800/80 dark:text-cyan-400 dark:hover:border-cyan-400/50 dark:hover:bg-zinc-700/80"
           >
             <CloseIcon />
           </Button>
 
           <div className="relative space-y-6 p-6">
             <div className="space-y-2 pr-6">
-              <h2 className="text-xl font-bold text-white tracking-tight">
+              <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
                 {title}
               </h2>
-              <div className="rounded-xl border border-cyan-500/30 bg-linear-to-r from-cyan-500/15 via-fuchsia-500/10 to-cyan-500/15 p-4 backdrop-blur-sm">
-                <p className="text-sm leading-relaxed text-zinc-400">
+              <div
+                className="rounded-xl border p-4 backdrop-blur-sm
+                bg-indigo-50/50 border-indigo-100
+                dark:bg-transparent dark:border-cyan-500/30 dark:bg-linear-to-r dark:from-cyan-500/15 dark:via-fuchsia-500/10 dark:to-cyan-500/15"
+              >
+                <p className="text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
                   {description}
                 </p>
               </div>
@@ -112,7 +122,9 @@ export function ConfirmModal({
               <Button
                 variant="icon"
                 onClick={onCancel}
-                className="flex-1 rounded-xl border border-zinc-700 bg-zinc-800/50 py-2.5 font-medium text-zinc-300 transition-all hover:bg-zinc-700 hover:text-white"
+                className="flex-1 rounded-xl border py-2.5 font-medium transition-all
+                  border-slate-200 bg-white text-slate-700 hover:bg-slate-50 shadow-sm
+                  dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-zinc-300 dark:hover:bg-zinc-700 dark:hover:text-white dark:shadow-none"
               >
                 {cancelLabel}
               </Button>

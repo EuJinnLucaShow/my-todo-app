@@ -16,7 +16,7 @@ export function Button({
 }: Readonly<ButtonProps>) {
   return (
     <button
-      className={`rounded disabled:opacity-50 cursor-pointer p-0 ${variants[variant]} ${className}`}
+      className={`rounded disabled:opacity-50 cursor-pointer ${variants[variant]} ${className}`}
       {...props}
     />
   );

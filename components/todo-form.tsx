@@ -19,11 +19,11 @@ export function TodoForm() {
         name="text"
         placeholder="Add task..."
         required
-        className="px-4 py-2"
+        className="flex-1"
       />
       <Button
         type="submit"
-        className="h-11 px-4 rounded-lg bg-indigo-500 hover:bg-indigo-600 transition"
+        className="px-8 bg-[#6366f1] text-white hover:bg-[#4f46e5] font-medium rounded-lg transition-colors"
       >
         Add
       </Button>

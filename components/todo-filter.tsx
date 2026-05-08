@@ -21,8 +21,8 @@ export function TodoFilter() {
           href={f.href}
           className={`transition-colors ${
             currentFilter === f.value
-              ? "text-blue-500"
-              : "text-gray-500 hover:text-gray-300"
+              ? "text-blue-500 dark:text-blue-500"
+              : "text-slate-500 hover:text-slate-900 dark:hover:text-slate-200"
           }`}
         >
           {f.name}
