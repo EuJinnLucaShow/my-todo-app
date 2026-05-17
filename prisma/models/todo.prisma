@@ -3,6 +3,7 @@ model Todo {
   text      String
   completed Boolean  @default(false)
   order     Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())  @map("created_at")
+  updatedAt DateTime @updatedAt       @map("updated_at")
+  @@map("todos")
 }
