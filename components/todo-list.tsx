@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd";
-import { reorderTodos } from "@/actions/todo";
+import { reorderTodos } from "@/actions/todo/todo.actions";
 import { TodoListProps } from "@/types/todo";
 import { Todo } from "@/app/generated/prisma/client";
 import { TodoItem } from "./todo-item";

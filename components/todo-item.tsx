@@ -2,7 +2,11 @@
 
 import { useState, useTransition, useOptimistic, useRef } from "react";
 import { Draggable } from "@hello-pangea/dnd";
-import { updateTodoText, toggleTodo, deleteTodo } from "@/actions/todo";
+import {
+  updateTodoText,
+  toggleTodo,
+  deleteTodo,
+} from "@/actions/todo/todo.actions";
 import { Input } from "@/ui/input";
 import type { TodoItemProps } from "@/types/todo";
 import { Button } from "@/ui/button";

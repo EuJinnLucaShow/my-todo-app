@@ -2,6 +2,8 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { todoSchema } from "./schema";
+import { ActionState } from "@/lib/types/action";
 
 export async function getTodos() {
   return await prisma.todo.findMany({
@@ -9,9 +11,20 @@ export async function getTodos() {
   });
 }
 
-export async function addTodo(formData: FormData) {
-  const text = formData.get("text") as string;
-  if (!text || text.trim() === "") return;
+export async function addTodo(
+  _prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const validatedFields = todoSchema.safeParse({
+    text: formData.get("text"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      error: validatedFields.error.issues[0]?.message || "Validation error",
+      success: false,
+    };
+  }
 
   try {
     const minOrderTodo = await prisma.todo.findFirst({
@@ -23,13 +36,15 @@ export async function addTodo(formData: FormData) {
 
     await prisma.todo.create({
       data: {
-        text,
+        text: validatedFields.data.text,
         order: newOrder,
       },
     });
     revalidatePath("/");
+    return { success: true, error: null };
   } catch (error) {
     console.error("Database error:", error);
+    return { error: "Failed to create task", success: false };
   }
 }
 
@@ -65,10 +80,19 @@ export async function reorderTodos(ids: string[]) {
 }
 
 export async function updateTodoText(id: string, text: string) {
-  if (!text || text.trim() === "") return;
-  await prisma.todo.update({
-    where: { id },
-    data: { text },
-  });
-  revalidatePath("/");
+  const validatedFields = todoSchema.safeParse({ text });
+
+  if (!validatedFields.success) {
+    return;
+  }
+
+  try {
+    await prisma.todo.update({
+      where: { id },
+      data: { text: validatedFields.data.text },
+    });
+    revalidatePath("/");
+  } catch (error) {
+    console.error("Update text error:", error);
+  }
 }
