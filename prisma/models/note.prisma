@@ -1,0 +1,18 @@
+model Note {
+  id          String     @id @default(cuid())
+  title       String?
+  content     String? 
+  color       String     @default("DEFAULT")
+  isPinned    Boolean    @default(false)  @map("is_pinned")
+  isArchived  Boolean    @default(false)  @map("is_archived")
+  isTrashed   Boolean    @default(false)  @map("is_trashed") 
+  createdAt   DateTime   @default(now())  @map("created_at")
+  updatedAt   DateTime   @updatedAt       @map("updated_at")
+  workspaceId String                      @map("workspace_id")
+  workspace   Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)  
+  items       NoteItem[]
+  labels      Label[] 
+   
+  @@index([workspaceId])
+  @@map("notes")
+}
