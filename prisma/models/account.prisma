@@ -1,20 +1,18 @@
 model Account {
-  id                String  @id @default(cuid())
-  userId            String  @map("user_id")
-  type              String
-  provider          String
-  providerAccountId String  @map("provider_account_id")
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
+  id           String    @id @default(cuid())
+  accountId    String    @map("account_id")
+  providerId   String    @map("provider_id")
+  userId       String    @map("user_id")
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken  String?   @map("access_token")  @db.Text
+  refreshToken String?   @map("refresh_token") @db.Text
+  idToken      String?   @map("id_token")      @db.Text
+  expiresAt    DateTime? @map("expires_at")
+  password     String?
+  
+  createdAt    DateTime  @default(now())       @map("created_at")
+  updatedAt    DateTime  @updatedAt            @map("updated_at")
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
   @@index([userId])
   @@map("accounts")
 }
